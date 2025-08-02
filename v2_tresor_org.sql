@@ -126,8 +126,5 @@ WHERE 1
 	AND ou6.a1 IS NULL
 	
 #group by t1.attribute1 having count(*) > 1
-
-
-
 ;
 
