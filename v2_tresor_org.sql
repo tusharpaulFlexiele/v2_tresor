@@ -102,3 +102,32 @@ WHERE 1
 ;
 
 
+#Department  -- missing  1 row it old table
+INSERT INTO otipy.fe_org_unit_m(
+cl,a2,a3,a4,a5,a6,
+ou1,ou2,ou5,who_created,when_created,who_updated,when_updated,c5
+);
+SELECT 
+	@cl, t2.a1 a2,t1.attribute2 a3, t1.attribute6 a4,UPPER(t1.attribute2) a5, IF(STR_TO_DATE(t1.attribute4,'%m/%d/%Y') >= CURDATE(), 1,0) a6,
+	ou2.ou1 ou1,ou2.a1 ou2,ou5.a1 ou5, t1.who_created,t1.when_created,t1.who_updated,t1.when_updated,t1.attribute1     
+FROM #;update
+	tresor_v1.fe_hrm_department_m t1
+	JOIN otipy.`fe_cfg_org_unit_type_m` t2 ON(t2.cl = @cl AND t2.a4 = 'OUM0000006')
+	LEFT JOIN otipy.fe_org_unit_m ou2 ON(ou2.c5 = t1.attribute5 AND ou2.a2 = @ou2)
+	JOIN otipy.`fe_cfg_org_unit_type_m` oum5 ON(oum5.cl = @cl AND oum5.a4 = 'OUM0000005')
+	LEFT JOIN otipy.fe_org_unit_m ou5 ON(ou5.c5 = t1.attribute40 AND ou5.a2 = oum5.a1 AND ou5.ou2=ou2.a1)
+	LEFT JOIN  otipy.fe_org_unit_m ou6 ON(ou6.c5 = t1.attribute1 AND ou6.a2 = t2.a1)
+	#LEFT JOIN  abfrlmc.fe_org_unit_m ou6 ON(ou6.a3 = t1.attribute2 AND ou6.a2 = t2.a1 and ou6.ou2 = ou2.a1) #by name
+	#set ou6.c5 = t1.attribute1
+WHERE 1
+	AND t1.attribute46 = @old_cl
+	AND  t1.attribute47 = 1
+	AND ou2.a1 IS NOT NULL
+	AND ou6.a1 IS NULL
+	
+#group by t1.attribute1 having count(*) > 1
+
+
+
+;
+
