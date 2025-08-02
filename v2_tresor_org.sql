@@ -128,3 +128,28 @@ WHERE 1
 #group by t1.attribute1 having count(*) > 1
 ;
 
+
+
+#sub-department  -- no values in old table and no old table exist in tresor_v1
+INSERT INTO otipy.fe_org_unit_m(
+cl,a2,a3,a4,a5,a6,
+ou1,ou2,ou5,ou6,who_created,when_created,who_updated,when_updated,c5
+);
+SELECT 
+	@cl, t2.a1 a2,t1.attribute2 a3, t1.attribute3 a4,UPPER(t1.attribute2) a5, IF(STR_TO_DATE(t1.attribute5,'%m/%d/%Y') >= CURDATE(), 1,0) a6,
+	ou6.ou1 ou1,ou6.a1 ou2,ou6.ou5 ou5,ou6.a1 ou6, t1.who_created,t1.when_created,t1.who_updated,t1.when_updated,t1.attribute1
+FROM# ;update
+	tresor_v1.fe_hrm_division_m t1
+	JOIN otipy.`fe_cfg_org_unit_type_m` t2 ON(t2.cl = @cl AND t2.a4 = 'OUM0000007')
+	JOIN otipy.`fe_cfg_org_unit_type_m` oum6 ON(oum6.cl = @cl AND oum6.a4 = 'OUM0000006')
+	LEFT JOIN otipy.fe_org_unit_m ou6 ON(ou6.c5 = t1.attribute7 AND ou6.a2 = oum6.a1)
+	LEFT JOIN otipy.fe_org_unit_m ou7 ON(ou7.c5 = t1.attribute1 AND ou7.a2 = t2.a1)
+	#LEFT JOIN abfrlmc.fe_org_unit_m ou7 ON(ou7.a3 = t1.attribute2 AND ou7.a2 = t2.a1 AND ou7.ou6 = ou6.a1) #by name
+	#set ou7.c5 = t1.attribute1
+WHERE 1
+	#AND IFNULL(t1.attribute7,0) > 0
+	AND t1.attribute46 = @old_cl
+	AND  t1.attribute47 = 1
+	AND ou7.a1 IS   NULL
+#group by t1.attribute1 having count(*) > 1
+
