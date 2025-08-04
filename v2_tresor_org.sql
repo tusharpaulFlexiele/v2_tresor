@@ -178,3 +178,38 @@ WHERE 1
 #group by t1.attribute1 having count(*) > 1
 ;
 
+
+
+
+
+INSERT INTO fe_org_unit_detail_m(
+cl,a2,a3,a4,a5,a6,a9,a11,a13,a14,a15,a16,a18,
+c1,c2,c3,c4,c6,c7,c8,c9,c10,
+who_created,when_created,who_updated,when_updated,c5
+);
+SELECT 
+	@cl,ou9.a1 a2,cont2.a1 a3, st.a1 a4, t1.attribute14 a5, t1.attribute18 a6,
+	CASE t1.attribute6 
+		WHEN 1 THEN 1
+		WHEN 2 THEN 2
+		WHEN 3 THEN 3
+		ELSE 0
+	END a9,
+	CONCAT(IFNULL(t1.attribute8,''),' ,',IFNULL(t1.attribute9,'')) a11, IF(IFNULL(t1.attribute23,0)>0,'1111',0) a13,'1111' a14,'1111' a15, t1.c_attribute7 a16,NULL a18,
+	t1.c_attribute3,t1.c_attribute4,t1.c_attribute5,t1.c_attribute6,t1.c_attribute7,t1.c_attribute8,t1.c_attribute9,t1.c_attribute10,t1.c_attribute11,
+	t1.who_created,t1.when_created,t1.who_updated,t1.when_updated	, t1.attribute1
+FROM 
+	tresor_v1.fe_hrm_location_m t1
+	LEFT JOIN otipy.fe_org_unit_m ou9 ON(ou9.c5 = t1.attribute1 AND ou9.a2 = 251)
+	LEFT JOIN tresor_v1.`fe_adm_country_m` cont ON(cont.attribute1 = t1.attribute21)
+	LEFT JOIN otipy.`fe_glb_country_g` cont2 ON(cont2.a2 = cont.attribute3)
+	LEFT JOIN otipy.`fe_glb_state_g` st ON(st.a4 = t1.attribute16 AND st.a2 = cont2.a1)
+	LEFT JOIN otipy.`fe_cfg_locale_m` lc ON(lc.a3 = t1.attribute32)
+WHERE 1
+	AND t1.attribute46 = @old_cl
+	AND  t1.attribute47 = 1
+#group by t1.attribute1 having count(*) > 1
+;
+
+
+
