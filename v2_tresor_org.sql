@@ -193,7 +193,7 @@ SELECT
 		WHEN 1 THEN 1
 		WHEN 2 THEN 2
 		WHEN 3 THEN 3
-		ELSE 0
+		ELSE NULL
 	END a9,
 	CONCAT(IFNULL(t1.attribute8,''),' ,',IFNULL(t1.attribute9,'')) a11, IF(IFNULL(t1.attribute23,0)>0,'1111',0) a13,'1111' a14,'1111' a15, t1.c_attribute7 a16,NULL a18,
 	t1.c_attribute3,t1.c_attribute4,t1.c_attribute5,t1.c_attribute6,t1.c_attribute7,t1.c_attribute8,t1.c_attribute9,t1.c_attribute10,t1.c_attribute11,
